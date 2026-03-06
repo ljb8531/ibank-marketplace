@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ibank-marketplace",
+  "version": "1.0.0",
+  "description": "팀 내부용 플러그인·스킬·도구 마켓플레이스",
+  "owner": {
+    "name": "iBank Team",
+    "email": ""
+  },
+  "plugins": [
+    {
+      "name": "ibank-research-agent",
+      "description": "벤치마킹 리서치 총괄 에이전트. 브리프 분석 후 Domain/Service/UXUI/Web Scout → Feature·UXUI 분석 → 리포트 작성. /orchestrator 로 실행.",
+      "version": "1.0.0",
+      "source": "./plugins/ibank-research-agent",
+      "category": "productivity"
+    }
+  ]
+}
