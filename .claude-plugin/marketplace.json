@@ -1,11 +1,10 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ibank-marketplace",
   "version": "1.0.0",
   "description": "팀 내부용 플러그인·스킬·도구 마켓플레이스",
   "owner": {
-    "name": "iBank Team",
-    "email": ""
+    "name": "ibank_ax",
+    "email": "jblee@ibank.co.kr"
   },
   "plugins": [
     {
