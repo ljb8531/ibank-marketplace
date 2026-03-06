@@ -29,7 +29,7 @@ Claude Code / Cursor 등에서 이 마켓플레이스를 등록하려면 설정�
 {
   "extraKnownMarketplaces": {
     "ibank-marketplace": {
-      "source": { "source": "github", "repo": "your-org/ibank-marketplace" }
+      "source": { "source": "github", "repo": "ljb8531/ibank-marketplace" }
     }
   }
 }
