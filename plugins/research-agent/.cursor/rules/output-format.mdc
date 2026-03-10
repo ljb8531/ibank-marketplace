@@ -1,0 +1,45 @@
+---
+description: 벤치마킹 후보 데이터의 공통 출력 포맷. 모든 에이전트가 후보를 기록할 때 이 포맷을 따른다.
+alwaysApply: true
+---
+
+# 벤치마킹 후보 데이터 포맷
+
+모든 벤치마킹 후보 사이트는 반드시 다음 JSON 구조로 기록한다.
+
+## 필수 필드
+
+```json
+{
+  "type": "Direct | Indirect | Inspire",
+  "name": "서비스명 (한글 또는 영문 공식 명칭)",
+  "url": "https://...",
+  "status": "Candidate | Confirmed | Excluded",
+  "selection_reason": "선정 사유 (15자 이상, 검증 가능한 구체적 근거 포함)",
+  "discovery_path": "발굴 경로 (키워드검색 | 뉴스 | SimilarWeb | 앱스토어 | 분석서비스 | Awwwards | GDWEB | Behance | 기타)",
+  "traffic": {
+    "monthly_visits": "숫자 또는 null",
+    "source": "SimilarWeb | 검색추정 | 와이즈앱",
+    "confidence": "high | medium | low"
+  }
+}
+```
+
+## 선택 필드 (유형별 추가)
+
+**Indirect 유형:**
+- `benchmark_feature`: 벤치마킹 대상 기능명
+- `implementation_detail`: 해당 기능의 구체적 구현 방식
+
+**Inspire 유형:**
+- `screenshots`: { "desktop_full": "경로", "mobile_full": "경로" }
+- `branding`: { "colorScheme", "colors", "fonts", "typography", "layout": { "viewport", "sections" } }
+- `design_strength`: 구체적 디자인 강점
+- `award`: { "source": "Awwwards | GDWEB | CSS Design Awards", "type": "SOTD | HM", "year": 2025 }
+
+## 금지 표현
+
+선정 사유에 다음 표현을 사용하지 않는다:
+- "좋아 보여서", "예쁘다", "유명해서", "깔끔하다", "트렌디하다"
+
+반드시 트래픽 수치, 기능명, 수상 이력, 구체적 UX 특성 등 검증 가능한 근거를 포함한다.

@@ -1,0 +1,24 @@
+---
+description: 벤치마킹 프로젝트의 파일 저장 규칙
+alwaysApply: true
+---
+
+# 파일 저장 규칙
+
+산출물은 반드시 `output/` 디렉토리 하위에 저장한다.
+
+- **스크린샷**: `output/screenshots/{서비스명_영문소문자}/`
+  - desktop_full.png, desktop_fold.png, mobile_full.png, mobile_fold.png
+- **브랜딩 데이터**: `output/branding/{서비스명_영문소문자}.json` (디자인 시스템 + 레이아웃 구조, branding-extract 스킬로 추출)
+- **리포트**: `output/reports/`
+  - benchmark-report.md (메인 리포트)
+  - executive-summary.md (경영진 요약)
+- **후보 데이터 로그**: `output/data/candidates.json` (전체 후보 누적 기록)
+- **원본 인풋**: `output/data/raw-input.txt` (run-benchmark 진입 시 저장)
+- **프로젝트 브리프**: `output/data/project-brief.json` (context-builder 산출물)
+
+## 서비스명 영문소문자 변환 규칙
+
+- 공백은 하이픈(-)으로 대체
+- 특수문자 제거
+- 예: "29CM" → "29cm", "무신사 스토어" → "musinsa-store"

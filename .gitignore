@@ -12,3 +12,6 @@ Thumbs.db
 # Logs / temp
 *.log
 .cache/
+
+# research-agent 산출물
+plugins/research-agent/output/

@@ -9,12 +9,8 @@ ibank-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json    # 마켓플레이스 설정 (이름, 플러그인 목록)
 ├── plugins/
-│   └── ibank-research-agent/   # 벤치마킹 리서치 에이전트
-│       ├── .claude-plugin/
-│       │   └── plugin.json
-│       ├── .cursor/agents/, .cursor/skills/
-│       ├── guides/, 사용가이드.md
-│       └── README.md
+│   ├── ibank-research-agent/   # 벤치마킹 리서치 (/orchestrator)
+│   └── research-agent/         # 웹사이트 벤치마킹 리서치 (/run-benchmark)
 ├── PLUGIN_SCHEMA.md       # 플러그인 작성 가이드
 └── README.md
 ```

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "subagentStop": [
+      {
+        "command": "./scripts/log-agent-result.sh"
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "./scripts/ensure-output-dirs.sh",
+        "matcher": "Write"
+      }
+    ]
+  }
+}
