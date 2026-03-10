@@ -8,13 +8,6 @@
   },
   "plugins": [
     {
-      "name": "ibank-research-agent",
-      "description": "벤치마킹 리서치 총괄 에이전트. 브리프 분석 후 Domain/Service/UXUI/Web Scout → Feature·UXUI 분석 → 리포트 작성. /orchestrator 로 실행.",
-      "version": "1.0.0",
-      "source": "./plugins/ibank-research-agent",
-      "category": "productivity"
-    },
-    {
       "name": "research-agent",
       "description": "웹사이트 벤치마킹 리서치 에이전트. RFP·URL·단편 정보만 넣어도 후보 선정·분석 리포트·디자인 자산 생성. /run-benchmark 로 실행.",
       "version": "1.0.0",
