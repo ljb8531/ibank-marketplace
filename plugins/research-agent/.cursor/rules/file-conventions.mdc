@@ -13,6 +13,8 @@ alwaysApply: true
 - **리포트**: `output/reports/`
   - benchmark-report.md (메인 리포트)
   - executive-summary.md (경영진 요약)
+  - **섹션 중간 산출물**: `output/reports/sections/` — 01-asis.md, 02-deepdive.md, 03-matrix.md, 04-insight.md (report-writer 내부 전용)
+- **참조 코드 매핑**: `output/data/reference-codes.json` (report-writer Step 0에서 생성, 5개 스킬 공통 참조)
 - **후보 데이터 로그**: `output/data/candidates.json` (전체 후보 누적 기록)
 - **원본 인풋**: `output/data/raw-input.txt` (run-benchmark 진입 시 저장)
 - **프로젝트 브리프**: `output/data/project-brief.json` (context-builder 산출물)

@@ -2,9 +2,10 @@
 name: screenshot-capture
 description: >
   Firecrawl로 URL의 데스크톱/모바일 풀페이지 스크린샷을 캡처하는 스킬.
+  Firecrawl 실패(차단·에러·rate limit) 시 cursor-ide-browser로 폴백 가능.
   design-researcher가 Inspire 후보 비주얼 자산 수집 시(PHASE 2 소스 5), 또는 디자인 벤치마킹·리포트용 스크린샷 수집 시 사용.
 argument-hint: [URL]
-allowed-tools: Bash, Read, Write
+allowed-tools: Bash, Read, Write, call_mcp_tool
 ---
 
 # Screenshot-Capture
@@ -18,9 +19,10 @@ allowed-tools: Bash, Read, Write
 
 | MCP 서버 | 도구 | 용도 |
 |----------|------|------|
-| **firecrawl** | `firecrawl_scrape` | 해당 페이지의 스크린샷 URL 획득 |
+| **firecrawl** | `firecrawl_scrape` | 해당 페이지의 스크린샷 URL 획득 (1차) |
+| **cursor-ide-browser** | `browser_navigate`, `browser_take_screenshot`, `browser_resize` | Firecrawl 실패 시 폴백 캡처 |
 
-`.cursor/mcp.json`에 firecrawl 설정 필요(Firecrawl API 키 필요).
+`.cursor/mcp.json`에 firecrawl 설정 필요(Firecrawl API 키 필요). 폴백 시 cursor-ide-browser 사용.
 
 ## 입력
 
@@ -60,7 +62,29 @@ allowed-tools: Bash, Read, Write
 ### 4. 품질 체크
 
 - 저장된 파일 크기가 10KB 미만이면 실패(빈/깨진 페이지)로 간주하고 `status: "failed"` 설정.
-- Firecrawl 오류 시 최대 3회 재시도(짧은 간격).
+- Firecrawl 오류 시 최대 3회 재시도(짧은 간격). 계속 실패하면 **폴백(5단계)** 으로 전환.
+
+### 5. Firecrawl 실패 시 폴백 (cursor-ide-browser)
+
+Firecrawl이 막혀 있거나, 에러·rate limit으로 재시도 후에도 수집이 안 될 때만 사용.
+
+1. **데스크톱**
+   - **cursor-ide-browser** MCP, `browser_navigate`(url=`$ARGUMENTS`) 호출.
+   - `browser_take_screenshot` 호출: `fullPage: true`, `filename`: `desktop_full.png` (또는 고유한 이름).
+   - 도구 반환값에서 **저장 경로** 확인(예: `~/.cursor/browser-logs/` 또는 반환된 절대 경로). 해당 경로에 저장된 파일을 **워크스페이스로 복사**:
+     - `mkdir -p output/screenshots/{서비스명}/`
+     - `cp "{반환된_저장_경로}" "output/screenshots/{서비스명}/desktop_full.png"`
+   - 복사 후 품질 체크(파일 크기 10KB 이상).
+
+2. **모바일**
+   - `browser_resize`(width=375, height=812 등 모바일 뷰포트) 호출.
+   - 동일 URL로 `browser_navigate`(url=`$ARGUMENTS`) 후 `browser_take_screenshot`(fullPage: true, filename: `mobile_full.png`).
+   - 반환된 저장 경로에서 `output/screenshots/{서비스명}/mobile_full.png`로 **복사**.
+   - (선택) 데스크톱 뷰로 다시 쓰려면 `browser_resize`로 원래 크기 복원.
+
+3. **주의**
+   - 브라우저 캡처는 **임시/로그 디렉터리**에 저장되므로, 반드시 **복사**하여 `output/screenshots/{서비스명}/` 에 두고 출력 포맷의 `screenshots` 경로는 이 복사본 경로를 사용한다.
+   - 폴백 사용 시 출력에 `"source": "browser_fallback"` 등을 넣어 출처를 구분해 두면 좋다.
 
 ## 출력 포맷
 
@@ -73,17 +97,18 @@ allowed-tools: Bash, Read, Write
     "desktop_full": "output/screenshots/{서비스명}/desktop_full.png",
     "mobile_full": "output/screenshots/{서비스명}/mobile_full.png"
   },
-  "status": "success | partial | failed"
+  "status": "success | partial | failed",
+  "source": "firecrawl | browser_fallback (선택, 폴백 사용 시)"
 }
 ```
 
 Inspire 후보의 경우 design-researcher가 이 경로를 후보의 `screenshots` 필드에 넣어 benchmark-report가 참조할 수 있게 한다.
 
-## 요약: Firecrawl 사용법
+## 요약: 1차(Firecrawl) vs 폴백(Browser)
 
-| 단계 | 도구 | 인자 |
-|------|------|------|
-| 데스크톱 | `firecrawl_scrape` | `url`, `formats: ["screenshot"]`, `screenshotOptions: { fullPage: true }` |
-| 모바일 | `firecrawl_scrape` | 위와 동일 + `mobile: true` |
+| 단계 | 1차 도구 | 인자 | 폴백 도구 | 비고 |
+|------|----------|------|-----------|------|
+| 데스크톱 | `firecrawl_scrape` | `url`, `formats: ["screenshot"]`, `screenshotOptions: { fullPage: true }` | `browser_navigate` → `browser_take_screenshot` | 폴백 시 저장 경로 확인 후 워크스페이스로 **복사** |
+| 모바일 | `firecrawl_scrape` | 위와 동일 + `mobile: true` | `browser_resize`(375,812) → `browser_navigate` → `browser_take_screenshot` | 동일하게 복사 |
 
-이 스킬에서는 Firecrawl의 다른 도구는 사용하지 않는다.
+이 스킬에서는 Firecrawl의 다른 도구는 사용하지 않는다. 폴백 시 cursor-ide-browser의 스크린샷은 임시 폴더에 저장되므로 반드시 `output/screenshots/{서비스명}/` 로 복사한 경로를 출력에 사용한다.

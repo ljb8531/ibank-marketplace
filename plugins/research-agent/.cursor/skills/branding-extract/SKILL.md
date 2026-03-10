@@ -6,8 +6,9 @@ description: >
   standardized JSON. Use when design-researcher collects Inspire candidates in PHASE 2 (소스 5:
   비주얼 자산 수집), after screenshot-capture per candidate URL. Saves to output/branding/{서비스명}.json
   for benchmark-report comparison. Requires Firecrawl MCP (firecrawl_scrape; firecrawl_extract optional).
+  Firecrawl 실패 시 cursor-ide-browser(browser_snapshot)로 폴백 가능.
 argument-hint: [URL]
-allowed-tools: Bash, Read, Write
+allowed-tools: Bash, Read, Write, call_mcp_tool
 ---
 
 # Branding-Extract
@@ -28,9 +29,10 @@ allowed-tools: Bash, Read, Write
 
 ## MCP 서버 및 도구
 
-- **MCP 서버:** `project-0-Research-Agent-firecrawl` (Firecrawl)
+- **MCP 서버:** `project-0-Research-Agent-firecrawl` (Firecrawl, 1차) / **cursor-ide-browser** (폴백)
 - **필수 도구:** `firecrawl_scrape` — 디자인 시스템·이미지 추출
 - **선택 도구:** `firecrawl_scrape`(formats: json) 또는 `firecrawl_extract` — 레이아웃 구조 추출
+- **폴백 도구:** `browser_navigate`, `browser_snapshot` — Firecrawl 실패 시 페이지 구조·텍스트 수집
 
 ### firecrawl_scrape — 언제·어떻게
 
@@ -86,6 +88,20 @@ allowed-tools: Bash, Read, Write
 
 - `branding.colors.primary`가 null이면 재시도 (최대 2회).
 - `fonts`가 비어 있으면 `/site-scrape`로 HTML 가져와 font-family 파싱 보완.
+
+---
+
+## Firecrawl 실패 시 폴백 (cursor-ide-browser)
+
+Firecrawl이 차단·에러·rate limit으로 재시도 후에도 실패할 때만 사용.
+
+1. **cursor-ide-browser** MCP: `browser_navigate`(url=`$ARGUMENTS`) 호출.
+2. `browser_snapshot`으로 현재 페이지의 접근성 트리(구조·텍스트·역할) 수집. 필요 시 `browser_scroll` 후 추가 스냅샷으로 하단 섹션까지 확보.
+3. 스냅샷 결과를 바탕으로:
+   - **layout.sections**: 스냅샷의 노드 계층·이름·역할에서 상단→하단 섹션(gnb, hero, grid, carousel, footer 등)을 추론해 `branding.layout.sections[]` 작성.
+   - **colors/fonts/typography**: 브라우저 스냅샷만으로는 스타일 값 추출이 제한적이므로, 가능한 범위에서만 채우고 나머지는 null 또는 빈 객체. (스크린샷은 `/screenshot-capture` 폴백으로 별도 확보 가능.)
+4. `output/branding/{서비스명}.json`에 저장할 때 `"source": "browser_fallback"` 등 출처 필드를 넣어 구분.
+5. 폴백으로 수집한 경우에도 **저장 경로는 동일**: `output/branding/{서비스명}.json`. 임시 파일이 생기면 워크스페이스 목표 경로로 복사 후 사용.
 
 ---
 
