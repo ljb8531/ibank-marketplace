@@ -1,17 +1,20 @@
 {
   "name": "ibank-marketplace",
-  "version": "1.0.0",
-  "description": "팀 내부용 플러그인·스킬·도구 마켓플레이스",
   "owner": {
     "name": "ibank_ax",
     "email": "jblee@ibank.co.kr"
   },
+  "metadata": {
+    "description": "팀 내부용 플러그인·스킬·도구 마켓플레이스",
+    "version": "1.0.0",
+    "pluginRoot": "plugins"
+  },
   "plugins": [
     {
       "name": "research-agent",
+      "source": "research-agent",
       "description": "웹사이트 벤치마킹 리서치 에이전트. RFP·URL·단편 정보만 넣어도 후보 선정·분석 리포트·디자인 자산 생성. /run-benchmark 로 실행.",
       "version": "1.0.0",
-      "source": "./plugins/research-agent",
       "category": "productivity"
     }
   ]
