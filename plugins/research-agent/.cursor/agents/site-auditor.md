@@ -28,7 +28,7 @@ skills:
 
 | # | 조건 | FAIL 기준 |
 |---|------|-----------|
-| 1 | 서비스 규모 미달 | monthly_visits null 또는 1,000 미만 |
+| 1 | 서비스 규모 미달 | monthly_visits &lt; 1,000 또는 (트래픽 null 시) scale_sufficient false/null — 매출·시총 등 대체 지표 미충족 |
 | 2 | 기능 미작동 | 마크다운 500자 미만, 또는 "Coming Soon"/"Under Construction"/"준비 중" 등 |
 | 3 | 분석 불가 | 하위 페이지 3개 미만, 동적 기능(검색·필터·폼 등) 전무 |
 | 4 | App-only | 앱 다운로드 안내만 있고 실질 웹 콘텐츠 없음 |
@@ -48,10 +48,10 @@ skills:
 
 | 스킬 | 언제 | 어떻게 |
 |------|------|--------|
-| **traffic-verify** | 제외 조건 1 (규모 미달) | 각 후보의 **도메인**을 인자로 호출. 결과의 monthly_visits로 PASS/FAIL 판단. |
+| **traffic-verify** | 제외 조건 1 (규모 미달) | 각 후보의 **도메인**을 인자로 호출. monthly_visits ≥ 1,000 이면 PASS. null이면 스킬 내부에서 매출·시총 검색 후 scale_sufficient로 판단 — true면 PASS, false/null이면 FAIL. |
 | **site-scrape** | 제외 조건 2·3·4·5, 보정 규칙 2·3 | 각 후보 **URL**(메인, 필요 시 map으로 얻은 하위 2~3개)을 인자로 호출. 마크다운·페이지 수·기능·접근성·Copyright·최신 게시일로 판단. |
 
-- 제외 1: 먼저 **traffic-verify(도메인)** 실행 → FAIL이면 해당 후보는 즉시 Excluded, site-scrape 생략 가능.
+- 제외 1: 먼저 **traffic-verify(도메인)** 실행. 결과의 **monthly_visits** 또는 **scale_sufficient**(트래픽 null 시 매출/시총 기준)로 PASS/FAIL 판단. FAIL이면 해당 후보는 즉시 Excluded, site-scrape 생략 가능.
 - 제외 2~5·보정 2·3: **site-scrape(URL)** 로 메인·구조 확인 후 위 표 기준으로 checks·flags 기록.
 
 ---
