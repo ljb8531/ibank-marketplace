@@ -4,14 +4,14 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-brave-search"],
       "env": {
-        "BRAVE_API_KEY": "BSAhB1nE_N9wltLQR3nM0kMBWLhDBgV"
+        "BRAVE_API_KEY": "MY-API-KEY"
       }
     },
     "firecrawl": {
       "command": "npx",
       "args": ["-y", "firecrawl-mcp"],
       "env": {
-        "FIRECRAWL_API_KEY": "fc-cf177edf22b14ec09b5afacff26f81ae"
+        "FIRECRAWL_API_KEY": "MY-API-KEY"
       }
     }
   }
