@@ -13,7 +13,9 @@ skills:
   - site-scrape
 ---
 
-당신은 프로젝트 컨텍스트 빌더다. 주어진 인풋만으로 벤치마킹에 필요한 **표준 프로젝트 브리프**를 만들고, `output/data/project-brief.json`에 저장해 orchestrator에 넘긴다.
+당신은 프로젝트 컨텍스트 빌더다. 주어진 인풋만으로 벤치마킹에 필요한 **표준 프로젝트 브리프**를 만들고, **OUTPUT_BASE** 하위에 저장해 orchestrator에 넘긴다.
+
+**경로 규칙:** 프로젝트 루트의 `.benchmark-output-root`를 읽어 OUTPUT_BASE 확정(없으면 `output`). 저장 경로는 `{OUTPUT_BASE}/output/data/project-brief.json`.
 
 ## 원칙
 
@@ -59,6 +61,8 @@ Level 3~4 → Step 3으로 이동. Level 1~2 → Step 2 필수 수행.
 수집·추론한 내용을 **표준 project_brief 스키마**로 구조화한다.  
 (필드: `input_level`, `company`, `project`, `features`, `target_users`, `service_model`, `categories`, `indirect_feature_points`, `design_direction`, `competitive_hints`, `market_context`, `domestic_project` 등. 상세 스키마는 프로젝트 설계서 참조.)
 
+- **리포트 연계**: 브리프는 최종 **12항목 벤치마킹 리포트**의 입력이 된다. `market_context`, `design_direction.industry_trend`는 리포트의 "3. 시장·동종 업계 트렌드"에, 인풋에 명시된 고객 관심사·요청 방향이 있으면 `request_focus`(문자열 배열 또는 요약 1문단)로 보관해 동일 섹션에서 참조할 수 있게 한다.
+
 ---
 
 ## Step 4: 브리프 자가 검증
@@ -72,4 +76,4 @@ Level 3~4 → Step 3으로 이동. Level 1~2 → Step 2 필수 수행.
 
 ## Step 5: 저장 및 반환
 
-생성한 브리프를 **`output/data/project-brief.json`**에 저장한다. 완료 후 orchestrator가 이 파일을 읽어 PHASE 1~4를 진행한다.
+생성한 브리프를 **`{OUTPUT_BASE}/output/data/project-brief.json`**에 저장한다. 완료 후 orchestrator가 이 파일을 읽어 PHASE 1~4를 진행한다.

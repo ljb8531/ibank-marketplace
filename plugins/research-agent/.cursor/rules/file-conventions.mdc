@@ -5,19 +5,21 @@ alwaysApply: true
 
 # 파일 저장 규칙
 
-산출물은 반드시 `output/` 디렉토리 하위에 저장한다.
+**OUTPUT_BASE**: 프로젝트 루트의 `.benchmark-output-root` 파일에 한 줄로 기록된 경로. 없거나 비어 있으면 `output`으로 간주(루트의 `output/` 사용). `/start` 실행 시 사용자 프롬프트로부터 유추한 상위 폴더가 기록된다.
 
-- **스크린샷**: `output/screenshots/{서비스명_영문소문자}/`
+산출물은 반드시 **`{OUTPUT_BASE}/output/`** 디렉토리 하위에 저장한다. (OUTPUT_BASE를 읽어 경로를 조합한다.)
+
+- **스크린샷**: `{OUTPUT_BASE}/output/screenshots/{서비스명_영문소문자}/`
   - desktop_full.png, desktop_fold.png, mobile_full.png, mobile_fold.png
-- **브랜딩 데이터**: `output/branding/{서비스명_영문소문자}.json` (디자인 시스템 + 레이아웃 구조, branding-extract 스킬로 추출)
-- **리포트**: `output/reports/`
-  - benchmark-report.md (메인 리포트)
+- **브랜딩 데이터**: `{OUTPUT_BASE}/output/branding/{서비스명_영문소문자}.json` (디자인 시스템 + 레이아웃 구조, branding-extract 스킬로 추출)
+- **리포트**: `{OUTPUT_BASE}/output/reports/`
+  - benchmark-report.md (메인 리포트, 12항목 목차 + 부록)
   - executive-summary.md (경영진 요약)
-  - **섹션 중간 산출물**: `output/reports/sections/` — 01-asis.md, 02-deepdive.md, 03-matrix.md, 04-insight.md (report-writer 내부 전용)
-- **참조 코드 매핑**: `output/data/reference-codes.json` (report-writer Step 0에서 생성, 5개 스킬 공통 참조)
-- **후보 데이터 로그**: `output/data/candidates.json` (전체 후보 누적 기록)
-- **원본 인풋**: `output/data/raw-input.txt` (run-benchmark 진입 시 저장)
-- **프로젝트 브리프**: `output/data/project-brief.json` (context-builder 산출물)
+  - **섹션 중간 산출물**: `{OUTPUT_BASE}/output/reports/sections/` — 01-asis.md(1,2,3,5,6), 02-deepdive.md(7,8), 03-matrix.md(9), 04-insight.md(4,10,11,12). report-writer 전용. 최종 조립 시 목차 1~12 순서로 합침.
+- **참조 코드 매핑**: `{OUTPUT_BASE}/output/data/reference-codes.json` (report-writer Step 0에서 생성, 5개 스킬 공통 참조)
+- **후보 데이터 로그**: `{OUTPUT_BASE}/output/data/candidates.json` (전체 후보 누적 기록)
+- **원본 인풋**: `{OUTPUT_BASE}/output/data/raw-input.txt` (run-benchmark 진입 시 저장)
+- **프로젝트 브리프**: `{OUTPUT_BASE}/output/data/project-brief.json` (context-builder 산출물)
 
 ## 서비스명 영문소문자 변환 규칙
 

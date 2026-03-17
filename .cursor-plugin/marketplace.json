@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "팀 내부용 플러그인·스킬·도구 마켓플레이스",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "pluginRoot": "plugins"
   },
   "plugins": [
@@ -14,7 +14,7 @@
       "name": "research-agent",
       "source": "research-agent",
       "description": "웹사이트 벤치마킹 리서치 에이전트. RFP·URL·단편 정보만 넣어도 context-builder → orchestrator(3탐색 에이전트·site-auditor) → report-writer(5단계 리포트)로 후보 선정·분석 리포트·디자인 자산 생성. /run-benchmark 로 실행.",
-      "version": "1.0.0",
+      "version": "1.0.2",
       "category": "productivity"
     }
   ]
