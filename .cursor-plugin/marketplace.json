@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "팀 내부용 플러그인·스킬·도구 마켓플레이스",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "pluginRoot": "plugins"
   },
   "plugins": [
@@ -15,6 +15,13 @@
       "source": "research-agent",
       "description": "웹사이트 벤치마킹 리서치 에이전트. RFP·URL·단편 정보만 넣어도 context-builder → orchestrator(3탐색 에이전트·site-auditor) → report-writer(5단계 리포트)로 후보 선정·분석 리포트·디자인 자산 생성. /run-benchmark 로 실행.",
       "version": "1.0.2",
+      "category": "productivity"
+    },
+    {
+      "name": "plugin-builder",
+      "source": "plugin-builder",
+      "description": "대화형 인터뷰로 업무 프로세스를 Cursor 플러그인으로 자동 변환하는 메타 플러그인. 업무 목적·절차·도구를 수집한 뒤 T-T-D-A-V 사고사슬 맵 → MCP 의존성 해결 → 컴포넌트 설계 → Skill/Agent/Rule/Command/Hook 생성 → 검증까지 수행. /new-plugin 으로 실행.",
+      "version": "1.0.0",
       "category": "productivity"
     }
   ]

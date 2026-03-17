@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "node scripts/count-chars.mjs ${file}",
+        "description": "Skill/Agent md 편집 후 500자 미만 준수 여부 검증",
+        "matcher": "{.cursor/skills/**/*.md,.cursor/agents/**/*.md}"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node scripts/validate-structure.mjs",
+        "description": "에이전트 작업 완료 시 전체 플러그인 구조 유효성 검증"
+      }
+    ]
+  }
+}
